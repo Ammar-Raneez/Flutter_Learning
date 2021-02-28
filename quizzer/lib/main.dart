@@ -32,6 +32,7 @@ class _QuizPageState extends State<QuizPage> {
     'A slug\'s blood is green.'
   ];
   int questionNumber = 0;
+  List<bool> answers = [false, true, true];
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +70,31 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                bool correctAnswer = answers[questionNumber];
+
+                if (correctAnswer) {
+                  print("User got it right!");
+
+                  setState(() {
+                    this.scoreKeeper.add(
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          ),
+                        );
+                  });
+                } else {
+                  print("User got it wrong!");
+                  setState(() {
+                    this.scoreKeeper.add(
+                          Icon(
+                            Icons.close,
+                            color: Colors.red,
+                          ),
+                        );
+                  });
+                }
                 setState(() {
-                  this.scoreKeeper.add(Icon(
-                        Icons.check,
-                        color: Colors.green,
-                      ));
                   this.questionNumber++;
                 });
               },
@@ -93,11 +114,27 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                bool correctAnswer = answers[questionNumber];
+
+                if (!correctAnswer) {
+                  print("User got it right!");
+
+                  setState(() {
+                    this.scoreKeeper.add(Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    ));
+                  });
+                } else {
+                  print("User got it wrong!");
+                  setState(() {
+                    this.scoreKeeper.add(Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ));
+                  });
+                }
                 setState(() {
-                  this.scoreKeeper.add(Icon(
-                        Icons.close,
-                        color: Colors.red,
-                      ));
                   this.questionNumber++;
                 });
               },
