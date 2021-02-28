@@ -29,31 +29,52 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
 
-  void checkAnswer(bool userPickedAnswer) {
+  void _checkAnswer(bool userPickedAnswer) {
     bool correctAnswer = questionBank.getQuestionAnswer();
 
     if (correctAnswer == userPickedAnswer) {
       setState(() {
         this.scoreKeeper.add(
-          Icon(
-            Icons.check,
-            color: Colors.green,
-          ),
-        );
+              Icon(
+                Icons.check,
+                color: Colors.green,
+              ),
+            );
       });
     } else {
       setState(() {
         this.scoreKeeper.add(
-          Icon(
-            Icons.close,
-            color: Colors.red,
-          ),
-        );
+              Icon(
+                Icons.close,
+                color: Colors.red,
+              ),
+            );
       });
     }
     setState(() {
       questionBank.canNextQuestion();
     });
+  }
+
+  Expanded _userCard(String text, MaterialColor buttonColor, bool cardAnswer) {
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.all(15.0),
+        child: FlatButton(
+          color: buttonColor,
+          child: Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+            ),
+          ),
+          onPressed: () {
+            _checkAnswer(cardAnswer);
+          },
+        ),
+      ),
+    );
   }
 
   @override
@@ -78,43 +99,8 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              textColor: Colors.white,
-              color: Colors.green,
-              child: Text(
-                'True',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                ),
-              ),
-              onPressed: () {
-                checkAnswer(true);
-              },
-            ),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              color: Colors.red,
-              child: Text(
-                'False',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                ),
-              ),
-              onPressed: () {
-                checkAnswer(false);
-              },
-            ),
-          ),
-        ),
+        _userCard('True', Colors.green, true),
+        _userCard('False', Colors.red, false),
         Row(
           children: scoreKeeper,
         )
