@@ -28,7 +28,6 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
-  int questionNumber = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questionBank.getQuestionText(questionNumber),
+                questionBank.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -66,12 +65,9 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer =
-                    questionBank.getQuestionAnswer(questionNumber);
+                bool correctAnswer = questionBank.getQuestionAnswer();
 
                 if (correctAnswer) {
-                  print("User got it right!");
-
                   setState(() {
                     this.scoreKeeper.add(
                           Icon(
@@ -81,7 +77,6 @@ class _QuizPageState extends State<QuizPage> {
                         );
                   });
                 } else {
-                  print("User got it wrong!");
                   setState(() {
                     this.scoreKeeper.add(
                           Icon(
@@ -92,7 +87,7 @@ class _QuizPageState extends State<QuizPage> {
                   });
                 }
                 setState(() {
-                  this.questionNumber++;
+                  questionBank.canNextQuestion();
                 });
               },
             ),
@@ -111,12 +106,9 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer =
-                    questionBank.getQuestionAnswer(questionNumber);
+                bool correctAnswer = questionBank.getQuestionAnswer();
 
                 if (!correctAnswer) {
-                  print("User got it right!");
-
                   setState(() {
                     this.scoreKeeper.add(Icon(
                           Icons.check,
@@ -124,7 +116,6 @@ class _QuizPageState extends State<QuizPage> {
                         ));
                   });
                 } else {
-                  print("User got it wrong!");
                   setState(() {
                     this.scoreKeeper.add(Icon(
                           Icons.close,
@@ -133,7 +124,7 @@ class _QuizPageState extends State<QuizPage> {
                   });
                 }
                 setState(() {
-                  this.questionNumber++;
+                  questionBank.canNextQuestion();
                 });
               },
             ),
